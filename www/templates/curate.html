@@ -1,0 +1,71 @@
+<ng-include src="'templates/_nav.html'"></ng-include>
+<article class="curate">
+  <div class="row">
+    <div ng-class="{'col-md-9': sidebar_visible, 'col-md-12': !sidebar_visible}">
+      <div class="controls-top">
+        <div class="btn-group">
+          <button
+            ng-click="browser.view.zoomIn()"
+            class="btn btn-default">
+            <i class="fa fa-search-plus"></i>
+          </button>
+          <button
+            ng-click="browser.view.zoomOut()"
+            class="btn btn-default">
+            <i class="fa fa-search-minus"></i>
+          </button>
+        </div>
+        <button
+          class="btn btn-default">
+          <i class="fa fa-gear"></i>
+        </button>
+        <button
+          ng-click="toggle_sidebar()"
+          class="btn btn-default">
+          <i class="fa" ng-class="{'fa-angle-double-right': sidebar_visible, 'fa-angle-double-left': !sidbar_visible}"></i>
+        </button>
+      </div>
+      <div id="genome"></div>
+      <div class="controls-bot">
+        <button
+          ng-click="done()"
+          class="btn btn-default btn-lg btn-block pull-right">
+          <i class="fa fa-lg fa-check-square-o"></i>
+          Done
+        </button>
+      </div>
+    </div>
+    <div
+      ng-if="sidebar_visible"
+      class="col-md-3">
+      <h3>Checklist here.</h3>
+    </div>
+  </div>
+  <div class="modal fade" id="thanks">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Great job!</h4>
+        </div>
+        <div class="modal-body">
+          <p>
+            Would you like to contribute more?
+          </p>
+        </div>
+        <div class="modal-footer">
+          <a
+            href="#"
+            data-dismiss="modal"
+            class="btn btn-primary">
+            Contribute more
+          </a>
+          <a
+            href='/'
+            class="btn btn-primary">
+            Go back to Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
