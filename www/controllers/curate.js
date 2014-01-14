@@ -66,16 +66,30 @@ define(['JBrowse/Browser']
     };
 
     return ['$http', '$q', '$cookieStore', function (http, q, cookie) {
+        var that = this;
         this.browser = new Browser(config);
 
-        this.sidebar_visible = true;
+        this.sidebar_visible = false;
         this.toggle_sidebar  = function () {
             this.sidebar_visible = !this.sidebar_visible;
-            var thisB = this.browser;
             setTimeout(function () {
-                thisB.browserWidget.resize({w: $('#genome').width()});
+                that.browser.browserWidget.resize({w: $('#genome').width()});
             }, 0);
         };
+
+        this.selected_feature = undefined;
+        this.browser.subscribe('jbrowse/v1/features/selected', function (feature_details) {
+            that.$apply(function () {
+                that.selected_feature = feature_details;
+                that.toggle_sidebar();
+            });
+        });
+
+        this.browser.subscribe('jbrowse/v1/features/selection-cleared', function (feature_details) {
+            that.$apply(function () {
+                that.toggle_sidebar();
+            });
+        });
 
         this.load = function (task) {
             this.browser.showRegion(task);

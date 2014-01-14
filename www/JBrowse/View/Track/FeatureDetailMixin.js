@@ -65,6 +65,33 @@ return declare( FeatureDescriptionMixin, {
     },
 
     /**
+     * Make a default feature detail object for the given feature.
+     * @returns {Object} feature detail object
+     */
+    featureDetailObject: function(/** JBrowse.Track */ track, /** Object */ f) {
+        var subfeatures = f.get('subfeatures');
+        var subfeature_details = [];
+        array.forEach(subfeatures || [], function(subfeature) {
+            subfeature_details.push(track.featureDetailObject(track, subfeature));
+        })
+
+        return {
+            'Name': this.getFeatureLabel(f),
+            'Type': f.get('type'),
+            'Score': f.get('score'),
+            'Description': this.getFeatureDescription(f),
+            'Position': Util.assembleLocString({
+                start: f.get('start'),
+                end: f.get('end'),
+                ref: this.refSeq.name,
+                strand: f.get('strand')
+            }),
+            'Length': Util.addCommas(f.get('end') - f.get('start')) + ' bp',
+            'Subfeatures': subfeature_details
+        }
+    },
+
+    /**
      * Make a default feature detail page for the given feature.
      * @returns {HTMLElement} feature detail page HTML
      */

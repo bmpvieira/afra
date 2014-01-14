@@ -203,7 +203,8 @@ var draggableTrack = declare( HTMLFeatureTrack,
                                   }
                                   if (this.verbose_selection)  { console.log("clearing selection"); }
                                   track.selectionManager.clearAllSelection();
-                              }
+                                  track.browser.publish('jbrowse/v1/features/selection-cleared');
+                          }
                           else   {
                               track.prev_selection = null;
                           }
@@ -794,6 +795,10 @@ var draggableTrack = declare( HTMLFeatureTrack,
        var already_selected = selman.isSelected( { feature: feat, track: ftrack } );
        var parent_selected = false;
        var parent = feat.parent();
+
+       // publish details of the selected feature
+       this.browser.publish('jbrowse/v1/features/selected', this.featureDetailObject(this, parent));
+
        if (parent)  {
            parent_selected = selman.isSelected( { feature: parent, track: ftrack } );
        }
